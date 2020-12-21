@@ -188,11 +188,9 @@ test('plugin is registered with "point-of-view" name', t => {
   fastify.ready(err => {
     t.error(err)
 
-    const symbolKey = Reflect.ownKeys(fastify)
-      .find(key => key.toString() === 'Symbol(registered-plugin)')
-    const registeredPlugins = fastify[symbolKey]
-    const checkPointOfViewName = (name) => name === 'point-of-view'
-    t.ok(registeredPlugins.find(checkPointOfViewName))
+    const kRegistedPlugins = Symbol.for('registered-plugin')
+    const registeredPlugins = fastify[kRegistedPlugins]
+    t.ok(registeredPlugins.find(name => name === 'point-of-view'))
 
     fastify.close()
   })
